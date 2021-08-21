@@ -1,0 +1,334 @@
+CREATE TABLE `e-commerce`.`salsepeople` (
+  `SNUM` INT NOT NULL,
+  `SNAME` VARCHAR(45) NULL,
+  `CITY` VARCHAR(45) NULL,
+  `COMM` INT(11) NULL,
+  PRIMARY KEY (`SNUM`));
+
+INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1001', 'Peel', 'London', '12');
+INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1002', 'Serres', 'Sanjosc', '13');
+INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1004', 'Motika', 'Landon', '11');
+INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1007', 'Rafkin', 'Barcelana', '15');
+INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1003', 'Alelrod', 'New York', '10');
+INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1008', 'Fran', 'London', '25');
+
+
+CREATE TABLE `e-commerce`.`customers` (
+  `CNUM` INT(11) NOT NULL,
+  `CNAME` VARCHAR(45) NULL,
+  `CITY` VARCHAR(45) NULL,
+  `RATING` VARCHAR(45) NULL,
+  `SNUM` VARCHAR(45) NULL,
+  PRIMARY KEY (`CNUM`));
+
+
+
+INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2001', 'Hoffman', 'London', '100', '1001');
+INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2002', 'Giovanni', 'Rome', '200', '1003');
+INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2003', 'Liu', 'SanJose', '200', '1002');
+INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2004', 'Grass', 'Berlin', '300', '1002');
+INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2006', 'Clemens', 'London', '100', '1001');
+INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2008', 'Cisneros', 'Sanjose', '300', '1007');
+INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2007', 'Pereira', 'Rome', '100', '1004');
+
+
+CREATE TABLE `e-commerce`.`orders` (
+  `ONUM` INT NOT NULL,
+  `AMT` DECIMAL(11) NULL,
+  `ODATE` DATE NULL,
+  `CNUM` INT(11) NULL,
+  `SNUM` INT(11) NULL,
+  PRIMARY KEY (`ONUM`));
+
+
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3001', '18.69', '10/03/90', '2008', '1007');
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3003', '767.19', '10/03/90', '2001', '1007');
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3002', '1900.10', '10/03/90', '2007', '1004');
+
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3005', '5160.45', '10/03/90', '2003', '1002');
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3006', '1098.16', '10/03/90', '2008', '1007');
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3009', '1713.23', '10/04/90', '2002', '1003');
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3007', '75.75', '10/04/90', '2004', '1002');
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3008', '4723.00', '10/05/90', '2006', '1001');
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3010', '1309.95', '10/06/90', '2004', '1002');
+INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3011', '9891.88', '10/06/90', '2006', '1001');
+
+
+mysql> show databases;
++--------------------------------+
+| Database                      |
++--------------------------------+
+| e-commerce                  |
+| election                         |
+| information_schema     |
+| mysql                            |
+| performance_schema   |
+| sys                                |
++--------------------------------+
+
+mysql> use e-commerce
+Database changed
+
+mysql> show tables;
++---------------------------------+
+| Tables_in_e-commerce |
++---------------------------------+
+| customers                      |
+| orders                            |
+| salsepeople                   |
++--------------------------------+
+
+1) List all the columns of the Salespeople table
+mysql> select * from salsepeople;
++------+---------+-----------+------+
+| SNUM | SNAME   | CITY      | COMM |
++------+---------+-----------+------+
+| 1001 | Peel    | London    |   12 |
+| 1002 | Serres  | Sanjosc   |   13 |
+| 1003 | Alelrod | New York  |   10 |
+| 1004 | Motika  | Landon    |   11 |
+| 1007 | Rafkin  | Barcelana |   15 |
+| 1008 | Fran    | London    |   25 |
++------+---------+-----------+------+
+
+2) List all customers with a rating of 100.
+mysql> select * from customers where RATING=100;
++------+---------+--------+--------+------+
+| CNUM | CNAME   | CITY   | RATING | SNUM |
++------+---------+--------+--------+------+
+| 2001 | Hoffman | London | 100    | 1001 |
+| 2006 | Clemens | London | 100    | 1001 |
+| 2007 | Pereira | Rome   | 100    | 1004 |
++------+---------+--------+--------+------+
+
+3)Find the largest order taken by each salesperson on each date.
+.
+.
+.
+.
+
+4) Arrange the Order table by descending customer number.
+mysql> select * from orders order by CNUM desc;
++------+---------+----------+------+------+
+| ONUM | AMT     | ODATE    | CNUM | SNUM |
++------+---------+----------+------+------+
+| 3001 |   18.69 | 10/03/90 | 2008 | 1007 |
+| 3006 | 1098.16 | 10/03/90 | 2008 | 1007 |
+| 3002 |  1900.1 | 10/03/90 | 2007 | 1004 |
+| 3008 |    4723 | 10/05/90 | 2006 | 1001 |
+| 3011 | 9891.88 | 10/06/90 | 2006 | 1001 |
+| 3007 |   75.75 | 10/04/90 | 2004 | 1002 |
+| 3010 | 1309.95 | 10/06/90 | 2004 | 1002 |
+| 3005 | 5160.45 | 10/03/90 | 2003 | 1002 |
+| 3009 | 1713.23 | 10/04/90 | 2002 | 1003 |
+| 3003 |  767.19 | 10/03/90 | 2001 | 1007 |
++------+---------+----------+------+------+
+
+5) Find which salespeople currently have orders in the order table.
+mysql> select * from salsepeople inner join orders on salsepeople.SNUM = orders.SNUM;
++------+---------+-----------+------+------+---------+----------+------+------+
+| SNUM | SNAME   | CITY      | COMM | ONUM | AMT     | ODATE    | CNUM | SNUM |
++------+---------+-----------+------+------+---------+----------+------+------+
+| 1007 | Rafkin  | Barcelana |   15 | 3001 |   18.69 | 10/03/90 | 2008 | 1007 |
+| 1004 | Motika  | Landon    |   11 | 3002 |  1900.1 | 10/03/90 | 2007 | 1004 |
+| 1007 | Rafkin  | Barcelana |   15 | 3003 |  767.19 | 10/03/90 | 2001 | 1007 |
+| 1002 | Serres  | Sanjosc   |   13 | 3005 | 5160.45 | 10/03/90 | 2003 | 1002 |
+| 1007 | Rafkin  | Barcelana |   15 | 3006 | 1098.16 | 10/03/90 | 2008 | 1007 |
+| 1002 | Serres  | Sanjosc   |   13 | 3007 |   75.75 | 10/04/90 | 2004 | 1002 |
+| 1001 | Peel    | London    |   12 | 3008 |    4723 | 10/05/90 | 2006 | 1001 |
+| 1003 | Alelrod | New York  |   10 | 3009 | 1713.23 | 10/04/90 | 2002 | 1003 |
+| 1002 | Serres  | Sanjosc   |   13 | 3010 | 1309.95 | 10/06/90 | 2004 | 1002 |
+| 1001 | Peel    | London    |   12 | 3011 | 9891.88 | 10/06/90 | 2006 | 1001 |
++------+---------+-----------+------+------+---------+----------+------+------+
+
+6) List names of all customers matched with the salespeople serving them.
+mysql> select CNAME from customers inner join salsepeople on salsepeople.CITY = customers.CITY;
++---------+
+| CNAME   |
++---------+
+| Hoffman |
+| Hoffman |
+| Clemens |
+| Clemens |
++---------+
+
+7) Find the names and numbers of all salespeople who have more than one customer.
+mysql> select s.SNAME, count(c.SNUM) from customers c inner join salsepeople s on c.SNUM =  s.SNUM group by s.SNUM having count(c.SNUM) > 1;
++--------+---------------+
+| SNAME  | count(c.SNUM) |
++--------+---------------+
+| Peel   |             2 |
+| Serres |             2 |
++--------+---------------+
+
+8) Count the orders of each of the salespeople and output the results in descending order.
+mysql> select s.SNAME, count(o.SNUM) from orders o inner join salsepeople s on o.SNUM =  s.SNUM group by s.SNUM order by count(o.SNUM) DESC;
++---------+---------------+
+| SNAME   | count(o.SNUM) |
++---------+---------------+
+| Rafkin  |             3 |
+| Serres  |             3 |
+| Peel    |             2 |
+| Motika  |             1 |
+| Alelrod |             1 |
++---------+---------------+
+
+9) List the customer table if and only if one or more of the customers in the Customer table are located in SanJose.
+mysql> select * from customers where CITY = 'SanJose';
++------+----------+---------+--------+------+
+| CNUM | CNAME    | CITY    | RATING | SNUM |
++------+----------+---------+--------+------+
+| 2003 | Liu      | SanJose | 200    | 1002 |
+| 2008 | Cisneros | Sanjose | 300    | 1007 |
++------+----------+---------+--------+------+
+
+
+10) Match salespeople to customers according to what city they live in.
+mysql> select * from customers inner join salsepeople on salsepeople.CITY  = customers.CITY;
++------+---------+--------+--------+------+------+-------+--------+------+
+| CNUM | CNAME   | CITY   | RATING | SNUM | SNUM | SNAME | CITY   | COMM |
++------+---------+--------+--------+------+------+-------+--------+------+
+| 2001 | Hoffman | London | 100    | 1001 | 1008 | Fran  | London |   25 |
+| 2001 | Hoffman | London | 100    | 1001 | 1001 | Peel  | London |   12 |
+| 2006 | Clemens | London | 100    | 1001 | 1008 | Fran  | London |   25 |
+| 2006 | Clemens | London | 100    | 1001 | 1001 | Peel  | London |   12 |
++------+---------+--------+--------+------+------+-------+--------+------+
+
+11) Find all the customers in SanJose who have a rating above 200.
+mysql> select * from customers where CITY = 'SanJose' and RATING > 200;
++------+----------+---------+--------+------+
+| CNUM | CNAME    | CITY    | RATING | SNUM |
++------+----------+---------+--------+------+
+| 2008 | Cisneros | Sanjose | 300    | 1007 |
++------+----------+---------+--------+------+
+
+12) List the names and commissions of all salespeople in London.
+mysql> select SNAME,COMM from salsepeople where CITY = 'London';
++--------+------+
+| SNAME  | COMM |
++--------+------+
+| Peel   |   12 |
+| Motika |   11 |
+| Fran   |   25 |
++--------+------+
+
+13) List all the orders of Salesperson Motika from the orders table.
+mysql> select * from orders where SNUM = (select SNUM from salsepeople where SNAME = 'Motika');
++------+--------+----------+------+------+
+| ONUM | AMT    | ODATE    | CNUM | SNUM |
++------+--------+----------+------+------+
+| 3002 | 1900.1 | 10/03/90 | 2007 | 1004 |
++------+--------+----------+------+------+
+
+14) Find all customers who booked orders on October 3.
+
+
+
+15) Give the sums of the amounts from the Orders table, grouped by date, eliminating all those dates where the SUM was not at least 2000 above
+the maximum Amount.
+mysql> select sum(o.AMT) from orders o  group by o.ODATE having sum(o.AMT)>2000;
++--------------------+
+| sum(o.AMT)         |
++--------------------+
+|  8944.590208053589 |
+|               4723 |
+| 11201.829833984375 |
++--------------------+
+
+16) Select all orders that had amounts that were greater than at least one of the orders from October 6.
+mysql> select * from orders where AMT > (select max(AMT) from orders where ODATE = '10/06/90');
+Empty set (0.00 sec)
+
+17) Write a query that uses the EXISTS operator to extract all salespeople who have customers with a rating of 300.
+mysql> select * from customers inner join salsepeople on salsepeople.SNUM  = customers.SNUM and customers.RATING = 300;
++------+----------+---------+--------+------+------+--------+-----------+------+
+| CNUM | CNAME    | CITY    | RATING | SNUM | SNUM | SNAME  | CITY      | COMM |
++------+----------+---------+--------+------+------+--------+-----------+------+
+| 2004 | Grass    | Berlin  | 300    | 1002 | 1002 | Serres | Sanjosc   |   13 |
+| 2008 | Cisneros | Sanjose | 300    | 1007 | 1007 | Rafkin | Barcelana |   15 |
++------+----------+---------+--------+------+------+--------+-----------+------+
+
+18) Find all customers whose cnum is 1000 above the snum of Serres.
+
+19) Give the salespeople’s commissions as percentages instead of decimal numbers
+mysql> select concat(COMM , '%') as Percente from salsepeople;
++----------+
+| Percente |
++----------+
+| 12%      |
+| 13%      |
+| 10%      |
+| 11%      |
+| 15%      |
+| 25%      |
++----------+
+
+20) Find the largest order taken by each salesperson on each date, eliminating those Maximum orders, which are less than 3000.
+
+21) List all the largest orders for October 3, for each salesperson.
+
+22) Find all customers located in cities where Serres has customers.
+mysql> select * from customers where SNUM = (select SNUM from salsepeople where SNAME = 'Serres');
++------+-------+---------+--------+------+
+| CNUM | CNAME | CITY    | RATING | SNUM |
++------+-------+---------+--------+------+
+| 2003 | Liu   | SanJose | 200    | 1002 |
+| 2004 | Grass | Berlin  | 300    | 1002 |
++------+-------+---------+--------+------+
+
+23) Select all customers with a rating above 200.
+mysql> select * from customers where RATING > 200;
++------+----------+---------+--------+------+
+| CNUM | CNAME    | CITY    | RATING | SNUM |
++------+----------+---------+--------+------+
+| 2004 | Grass    | Berlin  | 300    | 1002 |
+| 2008 | Cisneros | Sanjose | 300    | 1007 |
++------+----------+---------+--------+------+
+
+26) Find salespeople who have multiple customers.
+mysql> select s.SNAME from customers c inner join salsepeople s on c.SNUM =  s.SNUM group by s.SNUM having count(c.SNUM) > 1;
++--------+
+| SNAME  |
++--------+
+| Peel   |
+| Serres |
++--------+
+
+28) Find all salespeople whose name starts with ‘P’ and fourth character is ‘I’.
+mysql> select * from salsepeople where SNAME like 'p__l%';
++------+-------+--------+------+
+| SNUM | SNAME | CITY   | COMM |
++------+-------+--------+------+
+| 1001 | Peel  | London |   12 |
++------+-------+--------+------+
+
+32) Select all customers whose names fall in between ‘A’ and ‘G’ alphabetical range.
+mysql> select * from customers where CNAME BETWEEN 'A' AND 'G';
++------+----------+---------+--------+------+
+| CNUM | CNAME    | CITY    | RATING | SNUM |
++------+----------+---------+--------+------+
+| 2006 | Clemens  | London  | 100    | 1001 |
+| 2008 | Cisneros | Sanjose | 300    | 1007 |
++------+----------+---------+--------+------+
+
+43) Find all salespeople that are located in either Barcelona or London.
+mysql> select * from salsepeople where NOT CITY='Barcelona' AND NOT CITY='London';
++------+---------+-----------+------+
+| SNUM | SNAME   | CITY      | COMM |
++------+---------+-----------+------+
+| 1002 | Serres  | Sanjosc   |   13 |
+| 1003 | Alelrod | New York  |   10 |
+| 1007 | Rafkin  | Barcelana |   15 |
++------+---------+-----------+------+
+
+44) Find all salespeople with only one customer.
+mysql> select s.SNAME, count(c.SNUM) from customers c inner join salsepeople s on c.SNUM =  s.SNUM group by s.SNUM having count(c.SNUM) = 1;
++---------+---------------+
+| SNAME   | count(c.SNUM) |
++---------+---------------+
+| Alelrod |             1 |
+| Motika  |             1 |
+| Rafkin  |             1 |
++---------+---------------+
+
+
