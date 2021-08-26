@@ -1,82 +1,74 @@
-CREATE TABLE `e-commerce`.`salsepeople` (
-  `SNUM` INT NOT NULL,
-  `SNAME` VARCHAR(45) NULL,
-  `CITY` VARCHAR(45) NULL,
-  `COMM` INT(11) NULL,
+--
+-- Table structure for table `salsepeople`
+--
+
+CREATE TABLE `salsepeople` (
+  `SNUM` int NOT NULL,
+  `SNAME` varchar(45) DEFAULT NULL,
+  `CITY` varchar(45) DEFAULT NULL,
+  `COMM` int DEFAULT NULL,
   PRIMARY KEY (`SNUM`));
 
-INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1001', 'Peel', 'London', '12');
-INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1002', 'Serres', 'Sanjosc', '13');
-INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1004', 'Motika', 'Landon', '11');
-INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1007', 'Rafkin', 'Barcelana', '15');
-INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1003', 'Alelrod', 'New York', '10');
-INSERT INTO `e-commerce`.`salsepeople` (`SNUM`, `SNAME`, `CITY`, `COMM`) VALUES ('1008', 'Fran', 'London', '25');
+INSERT INTO `salsepeople` VALUES (1001,'Peel','London',12),(1002,'Serres','Sanjosc',13),(1003,'Alelrod','New York',10),(1004,'Motika','London',11),(1007,'Rafkin','Barcelana',15),(1008,'Fran','London',25);
 
+--
+-- Table structure for table `customers`
+--
 
-CREATE TABLE `e-commerce`.`customers` (
-  `CNUM` INT(11) NOT NULL,
-  `CNAME` VARCHAR(45) NULL,
-  `CITY` VARCHAR(45) NULL,
-  `RATING` VARCHAR(45) NULL,
-  `SNUM` VARCHAR(45) NULL,
-  PRIMARY KEY (`CNUM`));
+CREATE TABLE `customers` (
+  `CNUM` int NOT NULL,
+  `CNAME` varchar(45) DEFAULT NULL,
+  `CITY` varchar(45) DEFAULT NULL,
+  `RATING` int DEFAULT NULL,
+  `SNUM` int DEFAULT NULL,
+  PRIMARY KEY (`CNUM`),
+  KEY `SNUM_idx` (`SNUM`),
+  CONSTRAINT `SNUM` FOREIGN KEY (`SNUM`) REFERENCES `salsepeople` (`SNUM`)); 
 
+INSERT INTO `customers` VALUES (2001,'Hoffman','London',100,1001),(2002,'Giovanni','Rome',200,1003),(2003,'Liu','SanJose',200,1002),(2004,'Grass','Berlin',300,1002),(2006,'Clemens','London',100,1001),(2007,'Pereira','Rome',100,1004),(2008,'Cisneros','Sanjose',300,1007);
 
+--
+-- Table structure for table `orders`
+--
 
-INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2001', 'Hoffman', 'London', '100', '1001');
-INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2002', 'Giovanni', 'Rome', '200', '1003');
-INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2003', 'Liu', 'SanJose', '200', '1002');
-INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2004', 'Grass', 'Berlin', '300', '1002');
-INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2006', 'Clemens', 'London', '100', '1001');
-INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2008', 'Cisneros', 'Sanjose', '300', '1007');
-INSERT INTO `e-commerce`.`customers` (`CNUM`, `CNAME`, `CITY`, `RATING`, `SNUM`) VALUES ('2007', 'Pereira', 'Rome', '100', '1004');
+CREATE TABLE `orders` (
+  `ONUM` int NOT NULL,
+  `AMT` float DEFAULT NULL,
+  `ODATE` varchar(45) DEFAULT NULL,
+  `CNUM` int DEFAULT NULL,
+  `SNUM` int DEFAULT NULL,
+  PRIMARY KEY (`ONUM`),
+  KEY `CNUM_idx` (`CNUM`),
+  KEY `SNUM_idx` (`SNUM`),
+  CONSTRAINT `CNUM` FOREIGN KEY (`CNUM`) REFERENCES `customers` (`CNUM`));
 
+INSERT INTO `orders` VALUES (3001,18.69,'10/03/90',2008,1007),(3002,1900.1,'10/03/90',2007,1004),(3003,767.19,'10/03/90',2001,1007),(3005,5160.45,'10/03/90',2003,1002),(3006,1098.16,'10/03/90',2008,1007),(3007,75.75,'10/04/90',2004,1002),(3008,4723,'10/05/90',2006,1001),(3009,1713.23,'10/04/90',2002,1003),(3010,1309.95,'10/06/90',2004,1002),(3011,9891.88,'10/06/90',2006,1001);
 
-CREATE TABLE `e-commerce`.`orders` (
-  `ONUM` INT NOT NULL,
-  `AMT` DECIMAL(11) NULL,
-  `ODATE` DATE NULL,
-  `CNUM` INT(11) NULL,
-  `SNUM` INT(11) NULL,
-  PRIMARY KEY (`ONUM`));
-
-
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3001', '18.69', '10/03/90', '2008', '1007');
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3003', '767.19', '10/03/90', '2001', '1007');
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3002', '1900.10', '10/03/90', '2007', '1004');
-
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3005', '5160.45', '10/03/90', '2003', '1002');
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3006', '1098.16', '10/03/90', '2008', '1007');
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3009', '1713.23', '10/04/90', '2002', '1003');
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3007', '75.75', '10/04/90', '2004', '1002');
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3008', '4723.00', '10/05/90', '2006', '1001');
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3010', '1309.95', '10/06/90', '2004', '1002');
-INSERT INTO `e-commerce`.`orders` (`ONUM`, `AMT`, `ODATE`, `CNUM`, `SNUM`) VALUES ('3011', '9891.88', '10/06/90', '2006', '1001');
 
 
 mysql> show databases;
-+--------------------------------+
-| Database                      |
-+--------------------------------+
-| e-commerce                  |
-| election                         |
-| information_schema     |
-| mysql                            |
-| performance_schema   |
-| sys                                |
-+--------------------------------+
++--------------------+
+| Database           |
++--------------------+
+| e-commerce         |
+| election           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
 
 mysql> use e-commerce
 Database changed
 
 mysql> show tables;
-+---------------------------------+
++----------------------+
 | Tables_in_e-commerce |
-+---------------------------------+
-| customers                      |
-| orders                            |
-| salsepeople                   |
-+--------------------------------+
++----------------------+
+| customers            |
+| orders               |
+| salsepeople          |
++----------------------+
 
 1) List all the columns of the Salespeople table
 mysql> select * from salsepeople;
