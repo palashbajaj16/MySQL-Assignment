@@ -349,13 +349,14 @@ mysql> select s.SNAME from customers c inner join salsepeople s on c.SNUM =  s.S
 +--------+
 
 27) Find salespeople with customers located in their own cities.
-mysql> select c.CNAME, s.SNAME, c.CITY, s.CITY from salsepeople as s inner join customers as c on c.SNUM = s.SNUM where s.CITY = c.CITY;
-+---------+-------+--------+--------+
-| CNAME   | SNAME | CITY   | CITY   |
-+---------+-------+--------+--------+
-| Hoffman | Peel  | London | London |
-| Clemens | Peel  | London | London |
-+---------+-------+--------+--------+
+mysql> select c.CNAME, c.CITY, s.SNAME, s.CITY from salsepeople as s inner join customers as c on c.SNUM = s.SNUM where s.CITY = c.CITY;
++---------+---------+--------+---------+
+| CNAME   | CITY    | SNAME  | CITY    |
++---------+---------+--------+---------+
+| Hoffman | London  | Peel   | London  |
+| Liu     | SanJose | Serres | SanJose |
+| Clemens | London  | Peel   | London  |
++---------+---------+--------+---------+.
 
 28) Find all salespeople whose name starts with ‘P’ and fourth character is ‘I’.
 mysql> select * from salsepeople where SNAME like 'p__l%';
@@ -730,6 +731,19 @@ mysql> select sls.COMM from salsepeople as sls inner join customers as cus on sl
 |   12 |
 +------+
 
+65) Write a query using ANY or ALL that will find all salespeople who have no customers located in their city.
+mysql> select c.CNAME, c.CITY, s.SNAME, s.CITY from salsepeople as s inner join customers as c on c.SNUM = s.SNUM where s.CITY != c.CITY;
++----------+---------+---------+-----------+
+| CNAME    | CITY    | SNAME   | CITY      |
++----------+---------+---------+-----------+
+| Giovanni | Rome    | Alelrod | New York  |
+| Grass    | Berlin  | Serres  | SanJose   |
+| Pereira  | Rome    | Motika  | London    |
+| Cisneros | SanJose | Rafkin  | Barcelana |
++----------+---------+---------+-----------+
+
+66) Write a query using the EXISTS operator that selects all salespeople with customers located in their cities who are not assigned to them.
+
 67) Write a query that selects all customers serviced by Peel or Motika. (Hint: The snum field relates the 2 tables to one another.)
 mysql> select sls.SNAME, cus.CNUM, cus.CNAME, cus.CITY, cus.RATING from salsepeople as sls inner join customers as cus on sls.SNUM = cus.SNUM where sls.SNAME = 'Peel' or sls.SNAME = 'Motika';
 +--------+------+---------+--------+--------+
@@ -739,6 +753,15 @@ mysql> select sls.SNAME, cus.CNUM, cus.CNAME, cus.CITY, cus.RATING from salsepeo
 | Peel   | 2006 | Clemens | London | 100    |
 | Motika | 2007 | Pereira | Rome   | 100    |
 +--------+------+---------+--------+--------+
+
+68) Count the number of salespeople registering orders for each day. (If a salesperson has more than one order on a given day, he or she should
+be counted only once.)
+mysql> select count(DISTINCT SNUM) from orders;
++----------------------+
+| count(DISTINCT SNUM) |
++----------------------+
+|                    5 |
++----------------------+
 
 69) Find all orders attributed to salespeople who live in London.
 mysql> select o.* from salsepeople as sls inner join orders as o on sls.SNUM = o.SNUM where sls.CITY = 'London';
@@ -768,6 +791,29 @@ mysql> select o.*,sls.CITY from salsepeople as sls inner join customers as c on 
 | 3010 | 1309.95 | 10/06/90 | 2004 | 1002 | Sanjosc   |
 +------+---------+----------+------+------+-----------+
 
+71) Find all salespeople who have customers with more than one current order.
+mysql> select DISTINCT o.SNUM, s.SNAME from salsepeople as s inner join orders as o on s.SNUM = o.SNUM group by o.CNUM having count(o.CNUM);
++------+---------+
+| SNUM | SNAME   |
++------+---------+
+| 1001 | Peel    |
+| 1002 | Serres  |
+| 1003 | Alelrod |
+| 1004 | Motika  |
+| 1007 | Rafkin  |
++------+---------+
+
+72) Write a query that extracts from the customer’s table every customer assigned to a salesperson, who is currently having at least one another
+customer(besides the customer being selected) with orders in the Orders Table.
+
+73) Write a query on the customer’s table that will find the highest rating in each city. Put the output in this form: for the city (city), the highest
+rating is (rating).
+
+74) Write a query that will produce the snum values of all salespeople with orders, having amt greater than 1000 in the Orders Table(without
+repeats).
+
+75) Write a query that lists customers in a descending order of rating. Output the rating field first, followed by the customer’s names and numbers.
+
 76) Find the average commission for salespeople in London.
 mysql> select avg(COMM) from salsepeople where CITY = 'London';
 +-----------+
@@ -775,6 +821,13 @@ mysql> select avg(COMM) from salsepeople where CITY = 'London';
 +-----------+
 |   16.0000 |
 +-----------+
+
+77) Find all orders credited to the same salesperson who services Hoffman.(cnum 2001).
+78) Find all salespeople whose commission is in between 0.10 and 0.12(both inclusive).
+79) Write a query that will give you the names and cities of all salespeople in London with a commission above 0.10.
+80) Write a query that selects each customer’s smallest order.
+81) Write a query that selects the first customer in alphabetical order whose name begins with ‘G’.
+82) Write a query that counts the number of different non NULL city values in the customers table.
 
 83) Find the average amount from the Orders Table.
 mysql> select avg(AMT) from orders;
@@ -805,6 +858,8 @@ mysql> SELECT * FROM salsepeople WHERE (comm > 0.12 || comm < 0.14);
 | 1008 | Fran    | London    |   25 |
 +------+---------+-----------+------+
 
+86) Which salespersons attend to customers not in the city they have been assigned to?
+
 87) Which salespeople get commission greater than 0.11 are serving customers rated less than 250?
 mysql> select * from salsepeople as s inner join customers as c on s.SNUM = c.SNUM where c.RATING < 250 || s.COMM > 0.11;
 +------+---------+-----------+------+------+----------+---------+--------+------+
@@ -819,6 +874,7 @@ mysql> select * from salsepeople as s inner join customers as c on s.SNUM = c.SN
 | 1007 | Rafkin  | Barcelana |   15 | 2008 | Cisneros | Sanjose | 300    | 1007 |
 +------+---------+-----------+------+------+----------+---------+--------+------+
 
+88) Which salespeople have been assigned to the same city but get different commission percentages?
 
 89) Which salesperson has earned the maximum commission?
 mysql> select SNAME,max(COMM) from salsepeople;
@@ -827,6 +883,8 @@ mysql> select SNAME,max(COMM) from salsepeople;
 +-------+-----------+
 | Peel  |        25 |
 +-------+-----------+
+
+90) Does the customer who has placed the maximum number of orders have the maximum rating?
 
 91) List all customers in descending order of customer rating.
 mysql> select * from customers order by RATING desc;
@@ -850,6 +908,11 @@ mysql> select o.ODATE from orders as o inner join customers as c on c.CNUM = o.C
 | 10/03/90 |
 +----------+
 
+93) Which salesmen have no orders between 10/03/1990 and 10/05/1990?
+94) How many salespersons have succeeded in getting orders?
+95) How many customers have placed orders?
+96) On which date has each salesman booked an order of maximum value?
+
 97) Who is the most successful salesperson?
 mysql> select SNAME,max(COMM) from salsepeople;
 +-------+-----------+
@@ -858,9 +921,20 @@ mysql> select SNAME,max(COMM) from salsepeople;
 | Peel  |        25 |
 +-------+-----------+
 
+98) Which customers have the same rating?
+99) Find all orders greater than the average for October 4th.
+
 100) List all customers with ratings above Grass’s average.
 mysql> SELECT * FROM customers WHERE RATING > (select avg(RATING) from customers where CNAME = 'Grass');
 Empty set (0.00 sec)
+
+101) Which customers have above average orders?
+102) Select the total amount in orders for each salesperson for which the total is greater than the amount of the largest order in the table.
+103) Give names and numbers of all salespersons that have more than one customer?
+104) Select all salespeople by name and number who have customers in their city whom they don’t service.
+105) Does the total amount in orders by customer in Rome and London, exceed the commission paid to salesperson in London, and New York by
+more than 5 times?
+106) Which are the date, order number, amt and city for each salesperson (by name) for themaximum order he has obtained?
 
 107) Which salesperson is having lowest commission?
 mysql> select SNAME,min(COMM) from salsepeople;
